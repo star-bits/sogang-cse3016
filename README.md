@@ -9,4 +9,9 @@
 - Sources 창의 Simulation Sources 아래 inv_tb 파일 확인.
 - Flow Navigator 창의 Simulation - Run Simulation - Run Behavioral Simulation 클릭.
 
-## 3주차
+## 4주차
+- [inv.v](https://github.com/star-bits/sogang-cse3016/blob/main/w4/inv.v)
+- [inv_tb.v](https://github.com/star-bits/sogang-cse3016/blob/main/w4/inv_tb.v)
+- [inv.xdc](https://github.com/star-bits/sogang-cse3016/blob/main/w4/inv.xdc)
+- RTL ANALYSIS - Open Elaborated Design - Window - I/O Ports
+- Run Synthesis - Run Implementation - Generate Bitstream - Open Target - Auto Connect - Program Device - Program
