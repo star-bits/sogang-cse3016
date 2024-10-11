@@ -18,10 +18,10 @@ cc = 1'b0;
 dd = 1'b0;
 end
 always@(aa or bb or cc or dd) begin
-aa <= #50 ~aa;
-bb <= #100 ~bb;
-cc <= #150 ~cc;
-dd <= #200 ~dd;
+aa <= #400 ~aa;
+bb <= #200 ~bb;
+cc <= #100 ~cc;
+dd <= #50 ~dd;
 end
 initial begin
 #1000
