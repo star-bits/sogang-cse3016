@@ -1,30 +1,30 @@
 `timescale 1ns / 1ps
 module inv_tb;
-reg aa, bb, cc, dd;
-wire ee, ff, gg;
+reg A, B, C, D;
+wire E, F, G;
 inv u_test(
-.a(aa),
-.b(bb),
-.c(cc),
-.d(dd),
-.e(ee),
-.f(ff),
-.g(gg)
+.a(A),
+.b(B),
+.c(C),
+.d(D),
+.e(E),
+.f(F),
+.g(G)
 );
 initial begin
-aa = 1'b0;
-bb = 1'b0;
-cc = 1'b0;
-dd = 1'b0;
+A = 1'b0;
+B = 1'b0;
+C = 1'b0;
+D = 1'b0;
 end
-always@(aa or bb or cc or dd) begin
-aa <= #400 ~aa;
-bb <= #200 ~bb;
-cc <= #100 ~cc;
-dd <= #50 ~dd;
+always@(A or B or C or D) begin
+A <= #400 ~A;
+B <= #200 ~B;
+C <= #100 ~C;
+D <= #50 ~D;
 end
 initial begin
-#1000
+#800
 $finish;
 end
 endmodule
