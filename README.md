@@ -89,3 +89,74 @@ end
 
 endmodule
 ```
+
+## 11주차
+
+RS Flip-Flop `inv.v`
+```verilog
+`timescale 1ns / 1ps
+
+module inv(
+input r, s, clk,
+output q, nq
+);
+
+// NOR
+// assign q = ~((c & clk) | nq);
+// assign nq = ~((s & clk) | q);
+
+// NAND
+assign q = ~(~(r & clk) & nq);
+assign nq = ~(~(s & clk) & q);
+
+endmodule
+```
+
+RS Flip-Flop `inv_tb.v`
+```verilog
+`timescale 1ns / 1ps
+
+module inv_tb;
+reg r, s, clk;
+wire q, nq;
+
+inv u_test(
+.r(r),
+.s(s),
+.clk(clk),
+.q(q),
+.nq(nq)
+);
+
+initial begin
+r = 1'b0;
+s = 1'b0;
+clk = 1'b0;
+end
+
+always@(r or s or clk) begin
+r <= #200 ~r;
+s <= #100 ~s;
+clk <= #50 ~clk;
+end
+
+initial begin
+#800
+$finish;
+end
+
+endmodule
+```
+
+RS Flip-Flop `inv.xdc`
+```
+set_property -dict {PACKAGE_PIN J4 IOSTANDARD LVCMOS18} [get_ports r]
+set_property -dict {PACKAGE_PIN L3 IOSTANDARD LVCMOS18} [get_ports s]
+set_property -dict {PACKAGE_PIN K3 IOSTANDARD LVCMOS18} [get_ports clk]
+
+set_property -dict {PACKAGE_PIN F15 IOSTANDARD LVCMOS18} [get_ports q]
+set_property -dict {PACKAGE_PIN F13 IOSTANDARD LVCMOS18} [get_ports nq]
+set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets q_OBUF]
+```
+
+
