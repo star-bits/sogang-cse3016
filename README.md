@@ -159,4 +159,121 @@ set_property -dict {PACKAGE_PIN F13 IOSTANDARD LVCMOS18} [get_ports nq]
 set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets q_OBUF]
 ```
 
+## 13주차
+
+Up/Down Counter `inv.v`
+```verilog
+`timescale 1ns / 1ps
+
+module up_down_counter(
+    input clk,                 
+    input rst,             
+    input ud,                  
+    output reg [3:0] out,     
+    output reg [6:0] segment,  
+    output reg digit            
+);
+
+    initial begin
+        out = 4'b0000;
+        segment = 7'b1111111; 
+        digit = 1'b1;       
+    end
+
+    always @(posedge clk) begin  // clk
+        if (rst) begin           // rst
+            out <= 4'b0000;   
+        end else begin
+            if (ud) begin        // ud
+                out <= out + 1; 
+            end else begin
+                out <= out - 1; 
+            end
+        end
+    end
+
+    always @(*) begin
+        if (ud) begin
+            segment = 7'b0111110;
+        end else begin
+            segment = 7'b0111101;
+        end
+    end
+
+endmodule
+```
+
+Up/Down Counter `inv_tb.v`
+```verilog
+`timescale 1ns / 1ps
+
+module up_down_counter_tb;
+
+    reg clk;
+    reg rst;
+    reg ud;
+    wire [3:0] out;
+    wire [6:0] segment;
+    wire digit;
+
+    up_down_counter uut (
+        .clk(clk),
+        .rst(rst),
+        .ud(ud),
+        .out(out),
+        .segment(segment),
+        .digit(digit)
+    );
+
+    initial begin
+        clk = 1'b0;    
+        rst = 1'b0;     
+        ud = 1'b1;     
+    end
+
+    always #10 clk = ~clk;
+
+    initial begin
+        #400 rst = 1'b1;  
+        #20 rst = 1'b0;   
+    end
+
+    initial begin
+        #600 ud = 1'b0;  
+    end
+
+    initial begin
+        #1000 $finish;
+    end
+
+endmodule
+```
+
+Up/Down Counter Simulation
+![updowncounter_sim](https://github.com/user-attachments/assets/b0c544ee-5930-4bad-a808-2c68c073b727)
+
+Up/Down Counter `inv.xdc`
+```
+set_property -dict {PACKAGE_PIN J4 IOSTANDARD LVCMOS18} [get_ports clk]
+set_property -dict {PACKAGE_PIN L3 IOSTANDARD LVCMOS18} [get_ports rst]
+set_property -dict {PACKAGE_PIN K3 IOSTANDARD LVCMOS18} [get_ports ud]
+
+set_property -dict {PACKAGE_PIN F15 IOSTANDARD LVCMOS18} [get_ports out[3]]
+set_property -dict {PACKAGE_PIN F13 IOSTANDARD LVCMOS18} [get_ports out[2]]
+set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS18} [get_ports out[1]]
+set_property -dict {PACKAGE_PIN F16 IOSTANDARD LVCMOS18} [get_ports out[0]]
+
+set_property -dict {PACKAGE_PIN D20 IOSTANDARD LVCMOS18} [get_ports segment[6]]
+set_property -dict {PACKAGE_PIN C20 IOSTANDARD LVCMOS18} [get_ports segment[5]]
+set_property -dict {PACKAGE_PIN C22 IOSTANDARD LVCMOS18} [get_ports segment[4]]
+set_property -dict {PACKAGE_PIN B22 IOSTANDARD LVCMOS18} [get_ports segment[3]]
+set_property -dict {PACKAGE_PIN B21 IOSTANDARD LVCMOS18} [get_ports segment[2]]
+set_property -dict {PACKAGE_PIN A21 IOSTANDARD LVCMOS18} [get_ports segment[1]]
+set_property -dict {PACKAGE_PIN E22 IOSTANDARD LVCMOS18} [get_ports segment[0]]
+
+set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS18} [get_ports digit]
+
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk_IBUF]
+```
+
 
