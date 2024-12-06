@@ -278,6 +278,7 @@ set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk_IBUF]
 
 ## 14주차
 
+Mealy b1101 detector design code
 ```verilog
 `timescale 1ns / 1ps
 
@@ -303,6 +304,7 @@ module inv_mealy(data, clk, rst, res, out);
 endmodule
 ```
 
+Mealy b1101 detector testbench code
 ```verilog
 `timescale 1ns / 1ps
 
@@ -356,3 +358,6 @@ module inv_tb;
 
 endmodule
 ```
+
+Mealy b1101 detector simulation result
+![mealy_sim](https://github.com/user-attachments/assets/7d34696b-f6f9-437e-991b-de040368835d)
