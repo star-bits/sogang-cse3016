@@ -276,4 +276,83 @@ set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS18} [get_ports digit]
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk_IBUF]
 ```
 
+## 14주차
 
+```verilog
+`timescale 1ns / 1ps
+
+module inv_mealy(data, clk, rst, res, out);
+    input data, clk, rst;
+    output reg res;
+    output reg [3:0] out;
+    parameter TARGET = 4'b1101;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            out <= 4'b0000;
+            res <= 1'b0;
+        end else begin
+            out <= {out[2:0], data};
+            
+            if ({out[2:0], data} == TARGET)
+                res <= 1'b1;
+            else
+                res <= 1'b0;
+        end
+    end
+endmodule
+```
+
+```verilog
+`timescale 1ns / 1ps
+
+module inv_tb;
+
+    reg clk;
+    reg data;
+    reg rst;
+    wire res;
+    wire [3:0] out;
+
+    inv_mealy u_inv (
+        .clk(clk),
+        .data(data),
+        .rst(rst),
+        .res(res),
+        .out(out) 
+    );
+
+    initial begin
+        clk = 0;
+        data = 0;
+        rst = 1; 
+
+        #90;
+        rst = 0;
+
+        #40; data = 0;
+        #40; data = 1;
+        #40; data = 1;
+        #40; data = 0; 
+
+        #40; data = 1;
+        #40; data = 1;
+        #40; data = 0;
+        #40; data = 1; 
+
+        #40; rst = 1; 
+        #40; rst = 0; 
+
+        #40; data = 1;
+        #40; data = 1;
+        #40; data = 0;
+        #40; data = 1;
+
+        #200;
+        $finish;
+    end
+
+    always #20 clk = ~clk;
+
+endmodule
+```
